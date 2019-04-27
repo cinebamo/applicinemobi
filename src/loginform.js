@@ -14,7 +14,8 @@ export default class LoginForm extends Component<Props> {
         //recuperer values input
         console.log(this.state);
         // envoyer
-        fetch('http://cinebamo.it-students.fr/login', {
+        // fetch('http://cinebamo.it-students.fr/login', {
+        fetch('http://192.168.33.15:3000/login', {
           method: 'POST',
           headers: {
             'content-Type': 'application/json',
@@ -27,17 +28,23 @@ export default class LoginForm extends Component<Props> {
           .then((response) => response.text())
           .then((datas) => {
             console.log(datas);
-            if (datas == 'connection ok') {
+            if (datas != '') {
                 this.props.setParentState({isLogged : true}) ;
                 console.log(this.state)
+                console.log('ihavetoken'+datas._id);
+                _storeData = async () => {
+                    try {
+                      await AsyncStorage.setItem('TOKEN',datas._id);
+                    console.log('ihavetoken'+datas._id);
+                    } catch (error) {
+                      console.log('Nok token');
+                    }
+                  };
               } else {
                 this.setState({identificationPassword:''})
                 alert(datas) ;
               }      
-          })// si pas ok on affiche un message d erreur + efface input
-    
-        // si ok donne acces au dashboard
-    
+          })
       }
 
     render() {
@@ -48,6 +55,7 @@ export default class LoginForm extends Component<Props> {
                     <TextInput style={styles.input}
                         placeholder="login"
                         autoCapitalize="none"
+                        autoCorrect={false}
                         onChangeText={(text) => {this.setState({ identificationLogin: text })}} />
                 </View>
 
@@ -55,6 +63,7 @@ export default class LoginForm extends Component<Props> {
                     <TextInput style={styles.input}
                         placeholder="password"
                         autoCapitalize="none"
+                        autoCorrect={false}
                         onChangeText={(text) => {this.setState({ identificationPassword: text })}} />
                 </View>
 
@@ -91,22 +100,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#fff',
     },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#fff',
-        marginBottom: 5,
-    },
     input: {
         height: 40,
         borderColor: 'silver',
         borderWidth: 1,
         flex: 1,
         margin: 10,
+        padding: 5,
     },
     button: {
         backgroundColor: '#1e90ff',

@@ -16,7 +16,8 @@ export default class AccountForm extends Component<Props> {
 
     _onCreate() {
         console.log('onCreate')
-        fetch('http://cinebamo.it-students.fr/users', {
+        // fetch('http://cinebamo.it-students.fr/users', {
+        fetch('http://192.168.33.15:3000/users', {
           method: 'POST',
           headers: {
             'content-Type': 'application/json',
@@ -42,7 +43,6 @@ export default class AccountForm extends Component<Props> {
           })
     }
 
-
     render() {
 
         return (
@@ -54,6 +54,7 @@ export default class AccountForm extends Component<Props> {
                     <TextInput style={styles.input}
                         placeholder="Nom"
                         autoCapitalize="none"
+                        autoCorrect={false}
                         onChangeText={(text) => {this.setState({ name: text })}}  />
                 </View>
 
@@ -61,6 +62,7 @@ export default class AccountForm extends Component<Props> {
                     <TextInput style={styles.input}
                         placeholder="Prénom"
                         autoCapitalize="none"
+                        autoCorrect={false}
                         onChangeText={(text) => {this.setState({ firstname: text })}} />
                 </View>
 
@@ -68,6 +70,7 @@ export default class AccountForm extends Component<Props> {
                     <TextInput style={styles.input}
                         placeholder="Age"
                         autoCapitalize="none"
+                        autoCorrect={false}
                         onChangeText={(text) => {this.setState({ age: text })}} />
                 </View>
 
@@ -75,6 +78,7 @@ export default class AccountForm extends Component<Props> {
                     <TextInput style={styles.input}
                         placeholder="email"
                         autoCapitalize="none"
+                        autoCorrect={false}
                         onChangeText={(text) => {this.setState({ email: text })}} />
                 </View>
 
@@ -82,6 +86,7 @@ export default class AccountForm extends Component<Props> {
                     <TextInput style={styles.input}
                         placeholder="password"
                         autoCapitalize="none"
+                        autoCorrect={false}
                         onChangeText={(text) => {this.setState({ password: text })}} />
                 </View>
 
@@ -96,14 +101,10 @@ export default class AccountForm extends Component<Props> {
                         <Text>J'ai déjà un compte</Text>
                     </TouchableOpacity>
                 </View>
-
             </View >
         )
     }
-
-
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -111,22 +112,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#fff',
     },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#fff',
-        marginBottom: 5,
-    },
     input: {
         height: 40,
         borderColor: 'silver',
         borderWidth: 1,
         flex: 1,
         margin: 10,
+        padding: 5,
     },
     button: {
         backgroundColor: '#1e90ff',

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FlatList, StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
 
+
 type Props = {};
 export default class Dashboard extends Component<Props> {
 
@@ -10,7 +11,8 @@ export default class Dashboard extends Component<Props> {
     }
 
     componentWillMount() {
-        fetch('http://cinebamo.it-students.fr/movies')
+        // fetch('http://cinebamo.it-students.fr/movies')
+        fetch('http://192.168.33.15:3000/movies')
             .then(function (result) { return result.json({}) })
             .then(function (datas) { this.setState.movies = datas }.bind(this))
     }
