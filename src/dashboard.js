@@ -1,20 +1,49 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
+import { FlatList, StyleSheet, Text, View, Image, Alert, TextInput, TouchableOpacity } from 'react-native';
 
 
 type Props = {};
 export default class Dashboard extends Component<Props> {
 
     state = {
-
         movies: []
     }
 
     componentWillMount() {
         // fetch('http://cinebamo.it-students.fr/movies')
-        fetch('http://192.168.33.15:3000/movies')
-            .then(function (result) { return result.json({}) })
-            .then(function (datas) { this.setState.movies = datas }.bind(this))
+
+        fetch('http://cinebamo.it-students.fr/search/last?n_movie=6', { // n_movie=6 pour charger 6 films
+            method: 'GET',
+            headers: {
+                'content-Type': 'application/json',
+            },
+            
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                // console.log(responseJson);
+                console.log(responseJson[0].title);
+                //mettre dans movies[] les resultats
+                console.log("contenu de movies : ")
+                this.setState({
+                    movies: responseJson
+                  })
+                console.log(this.state.movies[0]);
+                if (datas !== '') {
+                    
+                    
+                    _storeData = async () => {
+                        try {
+                            await AsyncStorage.setItem('TOKEN', response._id);
+                        } catch (error) {
+                            // Nok token
+                        }
+                    };
+                } else {
+
+                    alert(datas);
+                }
+            })
     }
 
     render() {
@@ -26,7 +55,10 @@ export default class Dashboard extends Component<Props> {
                     renderItem={({ item }) => (
                         <View>
                             <View>
-                                <Image source={{ uri: item.posterLink }} />
+                                <Image 
+                                style={{width: 50, height: 50}} 
+                                source={{uri: item.posterLink}}
+                                />
                             </View>
                             <View>
                                 <Text>{item.title}</Text>
