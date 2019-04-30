@@ -35,8 +35,8 @@ export default class Dashboard extends Component<Props> {
         return (
 
             <View style={styles.container}>
-                <View style={{ height: 100, flexDirection: 'row', margin: 20, padding: 20 }}>
-                    <Image source={require('../asset/logo_cinebamo.png')} style={{ marginTop: 15, height: 50, width: 50 }} />
+                <View style={styles.modalStyle}>
+                    <Image source={require('../asset/logo_cinebamo.png')} style={ styles.modalLogoStyle } />
                     <ModalUser setParentState={this.setState.bind(this)} />
 
                 </View>
@@ -50,12 +50,15 @@ export default class Dashboard extends Component<Props> {
                             <View>
                                 <View>
                                     <Image
-                                        style={{ width: 50, height: 50 }}
+                                        style={{ width: 50, height: 60 }}
                                         source={{ uri: item.posterLink }}
                                     />
                                 </View>
                                 <View>
                                     <Text>{item.title}</Text>
+                                </View>
+                                <View>
+                                    <Text>{item.summary}</Text>
                                 </View>
                             </View>
                         )}>
@@ -67,10 +70,30 @@ export default class Dashboard extends Component<Props> {
 }
 
 const styles = StyleSheet.create({
+    modalStyle:{
+        height: 100, 
+        flexDirection: 'row', 
+      //Le margin et Padding "Bouscule" les autre view  
+      //  margin: 20, 
+      //  padding: 20
+    },
+    modalLogoStyle: {
+        marginTop: 15, 
+        height: 50, 
+        width: 50
+    },
     form: {
-        flexDirection: 'column',
+        
+        
         alignItems: 'stretch',
-        alignSelf: 'stretch',
+        // alignSelf: 'stretch',
+        //backgroundColor: '#ff0000',
         flex: 1,
     },
+    container: {
+        //flex: 1,
+        // justifyContent: 'center',
+        // alignItems: 'center',
+         backgroundColor: '#fff',
+      }
 });
