@@ -35,37 +35,37 @@ export default class ModalUser extends Component<Props> {
     //   return userId;
       
     // }
-    _retrieveData = async () => {
-      try {
-        const userId = await AsyncStorage.getItem('token');
-        if (userId !== null) {
-          // We have data!!
-          console.log(userId);
-          return userId;
-        }
-      } catch (error) {
-        console.log('nokUserId');
-      }
-    };
+    // _retrieveData = async () => {
+    //   try {
+    //     const userId = await AsyncStorage.getItem('token');
+    //     if (userId !== null) {
+    //       // We have data!!
+    //       console.log(userId);
+    //       return userId;
+    //     }
+    //   } catch (error) {
+    //     console.log('nokUserId');
+    //   }
+    // };
 
 
 
-    fetch('http://cinebamo.it-students.fr/users/' + userId,{
-      // fetch('http://192.168.33.15:3000/users/')
-      method: 'GET',
-      credentials: 'same-origin',
-    }).then(function (result) { console.log( 'result' + result); return result.json({}) })
-      .then(function (datas) {  
-        console.log(datas);
-    this.setState({
-        name: datas.name,
-        firstname: datas.firstname,
-        age: datas.age,
-        email: datas.email,
-        password: datas.password
-      }) 
-      }.bind(this)); 
-      console.log(datas.name);
+    // fetch('http://cinebamo.it-students.fr/users/' + userId,{
+    //   // fetch('http://192.168.33.15:3000/users/')
+    //   method: 'GET',
+    //   credentials: 'same-origin',
+    // }).then(function (result) { console.log( 'result' + result); return result.json({}) })
+    //   .then(function (datas) {  
+    //     console.log(datas);
+    // this.setState({
+    //     name: datas.name,
+    //     firstname: datas.firstname,
+    //     age: datas.age,
+    //     email: datas.email,
+    //     password: datas.password
+    //   }) 
+    //   }.bind(this)); 
+    //   console.log(datas.name);
    
   }
   

@@ -51,18 +51,17 @@ export default class Dashboard extends Component<Props> {
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item }) => (
                             <View>
-                                <View>
                                     <Image
                                         style={{ width: 50, height: 60 }}
                                         source={{ uri: item.posterLink }}
                                     />
-                                </View>
-                                <View>
+                                
+                               
                                     <Text>{item.title}</Text>
-                                </View>
-                                <View>
+                                
+                              
                                     <Text>{item.summary}</Text>
-                                </View>
+                         
                             </View>
                         )}>
                     </FlatList>
