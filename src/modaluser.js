@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Modal, Alert } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Modal, Alert, FlatList } from 'react-native';
 
 type Props = {};
 export default class ModalUser extends Component<Props> {
