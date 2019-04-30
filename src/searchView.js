@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { TextInput, StyleSheet, Text, View, TouchableOpacity, Picker } from 'react-native';
 
-
-
 type Props = {};
 export default class SearchView extends Component<Props> {
 
@@ -11,15 +9,43 @@ export default class SearchView extends Component<Props> {
         search_Category: ""
     }
 
-
     componentWillMount() {
-
 
     }
 
     _buttonSearch() {
-        console.log("search_TitleActor : " + search_TitleActor)
-        console.log("search_Category : " + search_Category)
+        // console.log("search_TitleActor : " + this.state.search_TitleActor)
+        // console.log("search_Category : " + this.state.search_Category)
+
+        // Chercher les films
+
+        var route = 'http://cinebamo.it-students.fr/search/?'
+        var String_titleGet = 'title_actor=' + this.state.search_TitleActor
+        var String_categGet = '&category=' + this.state.search_Category
+        var getRoute = route + String_titleGet + String_categGet
+        fetch(getRoute, { // n_movie=6 pour charger 6 films
+            method: 'GET',
+            credentials: 'same-origin',
+            headers: {
+                'content-Type': 'application/json',
+            },
+
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    movies: responseJson
+                })
+                //console.log(movies)
+                this.props.setParentState({ titreView: 'Résultat de la recherche' })
+                this.props.setParentState({ movies: responseJson })
+                console.log(this.props)
+            }).catch(function (error) { // Pour le warning d'erreur "unhandled promise rejection"
+                console.log('There has been a problem with your fetch operation: ' + error.message);
+                // ADD THIS THROW error
+                throw error;
+            });
+        //mettre a jour le parent
     }
 
     render() {
@@ -36,7 +62,7 @@ export default class SearchView extends Component<Props> {
                     <TouchableOpacity
                         style={styles.buttonSearch}
                         onPress={() => {
-                            this._buttonSearch(true);
+                            this._buttonSearch();
                         }}>
                         <Text style={{ fontSize: 30 }}>Go !</Text>
                     </TouchableOpacity>
@@ -54,7 +80,7 @@ export default class SearchView extends Component<Props> {
                     <Picker.Item label="Comedie" value="COMEDY" />
                     <Picker.Item label="Crime" value="CRIME" />
                     <Picker.Item label="Drame" value="DRAME" />
-                    <Picker.Item label="Horor" value="HOROR" />
+                    <Picker.Item label="Horreur" value="HOROR" />
                     <Picker.Item label="Romance" value="ROMANCE" />
                     <Picker.Item label="Science-Fiction" value="SCI-FI" />
 

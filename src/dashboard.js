@@ -6,7 +6,7 @@ type Props = {};
 export default class Dashboard extends Component<Props> {
 
     state = {
-        movies: []
+        movies: [], titreView : 'Liste des films',
     }
 
     componentWillMount() {
@@ -45,7 +45,7 @@ export default class Dashboard extends Component<Props> {
                     <SearchView setParentState={this.setState.bind(this)}/>
                 </View>
                 <View style={styles.form}>
-                    <Text>Liste des films</Text>
+                    <Text>{this.state.titreView}</Text>
                     <FlatList
                         data={this.state.movies}
                         keyExtractor={(item, index) => index.toString()}
