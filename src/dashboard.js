@@ -17,68 +17,53 @@ export default class Dashboard extends Component<Props> {
             headers: {
                 'content-Type': 'application/json',
             },
-            
+
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                // console.log(responseJson);
-                console.log(responseJson[0].title);
-                //mettre dans movies[] les resultats
-                console.log("contenu de movies : ")
                 this.setState({
                     movies: responseJson
-                  })
-                console.log(this.state.movies[0]);
-                if (datas !== '') {
-                    
-                    
-                    _storeData = async () => {
-                        try {
-                            await AsyncStorage.setItem('TOKEN', response._id);
-                        } catch (error) {
-                            // Nok token
-                        }
-                    };
-                } else {
-
-                    alert(datas);
-                }
-            })
+                })
+            }).catch(function (error) { // Pour le warning d'erreur "unhandled promise rejection"
+                console.log('There has been a problem with your fetch operation: ' + error.message);
+                // ADD THIS THROW error
+                throw error;
+            });
     }
 
     render() {
         return (
 
             <View style={styles.container}>
-            <View style={{ height: 100, flexDirection: 'row', margin: 20, padding: 20 }}>
-          <Image source={require('../asset/logo_cinebamo.png')} style={{ marginTop: 15, height: 50, width: 50 }} />
-            <ModalUser setParentState={this.setState.bind(this)} />
-            
-        </View>
+                <View style={{ height: 100, flexDirection: 'row', margin: 20, padding: 20 }}>
+                    <Image source={require('../asset/logo_cinebamo.png')} style={{ marginTop: 15, height: 50, width: 50 }} />
+                    <ModalUser setParentState={this.setState.bind(this)} />
 
-            <View style={styles.form}>
-                <Text>Liste des films</Text>
-                <FlatList
-                    data={this.state.movies}
-                    renderItem={({ item }) => (
-                        <View>
+                </View>
+
+                <View style={styles.form}>
+                    <Text>Liste des films</Text>
+                    <FlatList
+                        data={this.state.movies}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item }) => (
                             <View>
-                                <Image 
-                                style={{width: 50, height: 50}} 
-                                source={{uri: item.posterLink}}
-                                />
+                                <View>
+                                    <Image
+                                        style={{ width: 50, height: 50 }}
+                                        source={{ uri: item.posterLink }}
+                                    />
+                                </View>
+                                <View>
+                                    <Text>{item.title}</Text>
+                                </View>
                             </View>
-                            <View>
-                                <Text>{item.title}</Text>
-                            </View>
-                        </View>
-                    )}>
-                </FlatList>
-            </View>
+                        )}>
+                    </FlatList>
+                </View>
             </View>
         );
     }
-
 }
 
 const styles = StyleSheet.create({
