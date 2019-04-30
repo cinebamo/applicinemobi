@@ -14,8 +14,8 @@ export default class LoginForm extends Component<Props> {
         //recuperer values input
         console.log(this.state);
         // envoyer
-        // fetch('http://cinebamo.it-students.fr/login', {
-        fetch('http://192.168.33.15:3000/login', {
+        fetch('http://cinebamo.it-students.fr/login', {
+        // fetch('http://192.168.33.15:3000/login', {
           method: 'POST',
           headers: {
             'content-Type': 'application/json',

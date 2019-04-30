@@ -19,16 +19,16 @@ export default class ModalUser extends Component<Props> {
   }
 
   componentWillMount() {
-    // fetch('http://cinebamo.it-students.fr/users/')
-    fetch('http://192.168.33.15:3000/users/')
-        .then(function (result) { return result.json({}) })
-        .then(function (datas) { this.setState.users = datas }.bind(this))
-}
+    fetch('http://cinebamo.it-students.fr/users/')
+      // fetch('http://192.168.33.15:3000/users/')
+      .then(function (result) { return result.json({}) })
+      .then(function (datas) { this.setState.users = datas }.bind(this))
+  }
 
   _onUpdate() {
 
-    // fetch('http://cinebamo.it-students.fr/users', {
-    fetch('http://http://192.168.33.15:3000/users', {
+    fetch('http://cinebamo.it-students.fr/users', {
+      // fetch('http://http://192.168.33.15:3000/users', {
       method: 'PUT',
       headers: {
         'content-Type': 'application/json',
@@ -43,7 +43,6 @@ export default class ModalUser extends Component<Props> {
     })
       .then((response) => response.text())
       .then((datas) => {
-        console.log(datas);
         if (datas !== '') {
           this.props.setParentState({ isLogged: true });
           console.log(this.state)
@@ -64,8 +63,8 @@ export default class ModalUser extends Component<Props> {
 
   _onDelete() {
 
-    // fetch('http://cinebamo.it-students.fr/users', {
-    fetch('http://http://192.168.33.15:3000/users', {
+    fetch('http://cinebamo.it-students.fr/users', {
+      // fetch('http://http://192.168.33.15:3000/users', {
       method: 'DELETE',
       headers: {
         'content-Type': 'application/json',
@@ -81,14 +80,14 @@ export default class ModalUser extends Component<Props> {
 
 
   _onLogout() {
-    //isLogged: false
+    this.props.setParentState({ isLogged: false });
   }
 
   render() {
     return (
-   
+
       <View style={{ marginTop: 22, marginLeft: 250 }}>
-      
+
         <Modal
           animationType="slide"
           transparent={false}
@@ -96,7 +95,7 @@ export default class ModalUser extends Component<Props> {
           onRequestClose={() => {
             Alert.alert('Modal has been closed.');
           }}>
-          
+
           <View style={{ marginTop: 22 }}>
             <View style={styles.modalUser} data={this.state.users}>
               <Text>Mon compte</Text>
@@ -105,60 +104,65 @@ export default class ModalUser extends Component<Props> {
                   onPress={this._onLogout.bind(this)}>
                   Me déconnecter</Text>
               </TouchableOpacity>
-           
-              <View style={styles.container}>
 
-                <View style={{ flexDirection: 'row' }}>
-                  <TextInput style={styles.input}
-                    placeholder="name"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    onChangeText={(text) => { this.setState({ name: text }) }} />
-                </View>
+              <FlatList
+                data={this.state.users}
+                renderItem={({ item }) => (
 
-                <View style={{ flexDirection: 'row' }}>
-                  <TextInput style={styles.input}
-                    placeholder="Prénom"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    onChangeText={(text) => { this.setState({ firstname: text }) }} />
-                </View>
+                  <View style={styles.container}>
 
-                <View style={{ flexDirection: 'row' }}>
-                  <TextInput style={styles.input}
-                    placeholder="Age"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    onChangeText={(text) => { this.setState({ age: text }) }} />
-                </View>
+                    <View style={{ flexDirection: 'row' }}>
+                      <TextInput style={styles.input}
+                        placeholder={item.name}
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        onChangeText={(text) => { this.setState({ name: text }) }} />
+                    </View>
 
-                <View style={{ flexDirection: 'row' }}>
-                  <TextInput style={styles.input}
-                    placeholder="email"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    onChangeText={(text) => { this.setState({ email: text }) }} />
-                </View>
+                    <View style={{ flexDirection: 'row' }}>
+                      <TextInput style={styles.input}
+                        placeholder={item.firstname}
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        onChangeText={(text) => { this.setState({ firstname: text }) }} />
+                    </View>
 
-                <View style={{ flexDirection: 'row' }}>
-                  <TextInput style={styles.input}
-                    placeholder="password"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    onChangeText={(text) => { this.setState({ password: text }) }} />
-                </View>
+                    <View style={{ flexDirection: 'row' }}>
+                      <TextInput style={styles.input}
+                        placeholder={item.age}
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        onChangeText={(text) => { this.setState({ age: text }) }} />
+                    </View>
 
-                <View style={{ margin: 5, flexDirection: 'row' }}>
-                  <TouchableOpacity onPress={this._onUpdate.bind(this)} style={styles.button}>
-                    <Text>Modifier mon compte</Text>
-                  </TouchableOpacity>
+                    <View style={{ flexDirection: 'row' }}>
+                      <TextInput style={styles.input}
+                        placeholder={item.email}
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        onChangeText={(text) => { this.setState({ email: text }) }} />
+                    </View>
 
-                  <TouchableOpacity onPress={this._onDelete.bind(this)} style={styles.buttonRed}>
-                    <Text>Supprimer mon compte</Text>
-                  </TouchableOpacity>
-                </View>
-                
-              </View >
+                    <View style={{ flexDirection: 'row' }}>
+                      <TextInput style={styles.input}
+                        placeholder={item.password}
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        onChangeText={(text) => { this.setState({ password: text }) }} />
+                    </View>
+
+                    <View style={{ margin: 5, flexDirection: 'row' }}>
+                      <TouchableOpacity onPress={this._onUpdate.bind(this)} style={styles.button}>
+                        <Text>Modifier mon compte</Text>
+                      </TouchableOpacity>
+
+                      <TouchableOpacity onPress={this._onDelete.bind(this)} style={styles.buttonRed}>
+                        <Text>Supprimer mon compte</Text>
+                      </TouchableOpacity>
+                    </View>
+
+                  </View >
+                )} />
               <TouchableOpacity
                 onPress={() => {
                   this.setModalVisible(!this.state.modalVisible);
@@ -177,7 +181,7 @@ export default class ModalUser extends Component<Props> {
         </TouchableOpacity>
         {/* fin de la modal */}
       </View>
-  
+
     );
   }
 }

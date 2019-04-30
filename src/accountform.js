@@ -16,8 +16,8 @@ export default class AccountForm extends Component<Props> {
 
     _onCreate() {
         console.log('onCreate')
-        // fetch('http://cinebamo.it-students.fr/users', {
-        fetch('http://192.168.33.15:3000/users', {
+        fetch('http://cinebamo.it-students.fr/users', {
+        // fetch('http://192.168.33.15:3000/users', {
           method: 'POST',
           headers: {
             'content-Type': 'application/json',

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View, Image, Alert, TextInput, TouchableOpacity } from 'react-native';
-
+import { FlatList, StyleSheet, Text, View, Image } from 'react-native';
+import ModalUser from './modaluser.js';
 
 type Props = {};
 export default class Dashboard extends Component<Props> {
@@ -48,6 +48,14 @@ export default class Dashboard extends Component<Props> {
 
     render() {
         return (
+
+            <View style={styles.container}>
+            <View style={{ height: 100, flexDirection: 'row', margin: 20, padding: 20 }}>
+          <Image source={require('../asset/logo_cinebamo.png')} style={{ marginTop: 15, height: 50, width: 50 }} />
+            <ModalUser setParentState={this.setState.bind(this)} />
+            
+        </View>
+
             <View style={styles.form}>
                 <Text>Liste des films</Text>
                 <FlatList
@@ -66,6 +74,7 @@ export default class Dashboard extends Component<Props> {
                         </View>
                     )}>
                 </FlatList>
+            </View>
             </View>
         );
     }

@@ -8,11 +8,11 @@
 
 
 import React, { Component } from 'react';
-import { AsyncStorage, Linking, StyleSheet, Text, View, Image, TouchableOpacity, Modal, Alert, TextInput } from 'react-native';
+import { AsyncStorage, Linking, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import Dashboard from './src/dashboard.js';
 import LoginForm from './src/loginform.js';
 import AccountForm from './src/accountform.js';
-import ModalUser from './src/modaluser.js';
+
 
 
 type Props = {};
@@ -52,17 +52,7 @@ export default class App extends Component<Props> {
     return (
 
       <View style={styles.container}>
-
-        <View style={{ height: 100, flexDirection: 'row', margin: 20, padding: 20 }}>
-          <Image source={require('./asset/logo_cinebamo.png')} style={{ marginTop: 15, height: 50, width: 50 }} />
-          {(this.state.isLogged) ? (
-
-            <ModalUser setParentState={this.setState.bind(this)} />
-            ) : (
-              <ModalUser style={{display:'none'}} />//a construire
-            )
-          }
-        </View>
+        
         {
 
           (this.state.isLogged) ? (
@@ -70,7 +60,9 @@ export default class App extends Component<Props> {
             <Dashboard />
 
           ) : (
-
+<View style={{ height: 100, flexDirection: 'row', margin: 20, padding: 20 }}>
+                  <Image source={require('./asset/logo_cinebamo.png')} style={{ height: 100, width: 100 }} />
+                </View>,
               (this.state.isLogin) ? (
 
                 <LoginForm setParentState={this.setState.bind(this)} />
