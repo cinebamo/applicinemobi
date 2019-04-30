@@ -10,6 +10,7 @@
 import React, { Component } from 'react';
 import { AsyncStorage, Linking, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import Dashboard from './src/dashboard.js';
+import Comments from './src/comments.js';
 import LoginForm from './src/loginform.js';
 import AccountForm from './src/accountform.js';
 
@@ -47,7 +48,6 @@ export default class App extends Component<Props> {
       }
     };
   }
-
   render() {
     return (
 
@@ -63,6 +63,7 @@ export default class App extends Component<Props> {
 <View style={{ height: 100, flexDirection: 'row', margin: 20, padding: 20 }}>
                   <Image source={require('./asset/logo_cinebamo.png')} style={{ height: 100, width: 100 }} />
                 </View>,
+
               (this.state.isLogin) ? (
 
                 <LoginForm setParentState={this.setState.bind(this)} />
