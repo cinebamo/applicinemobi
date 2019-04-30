@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FlatList, StyleSheet, Text, View, Image } from 'react-native';
 import ModalUser from './modaluser.js';
-
+import SearchView from './searchView';
 type Props = {};
 export default class Dashboard extends Component<Props> {
 
@@ -14,6 +14,7 @@ export default class Dashboard extends Component<Props> {
 
         fetch('http://cinebamo.it-students.fr/search/last?n_movie=6', { // n_movie=6 pour charger 6 films
             method: 'GET',
+            credentials: 'same-origin',
             headers: {
                 'content-Type': 'application/json',
             },
@@ -40,7 +41,9 @@ export default class Dashboard extends Component<Props> {
                     <ModalUser setParentState={this.setState.bind(this)} />
 
                 </View>
-
+                <View>
+                    <SearchView setParentState={this.setState.bind(this)}/>
+                </View>
                 <View style={styles.form}>
                     <Text>Liste des films</Text>
                     <FlatList
@@ -95,5 +98,6 @@ const styles = StyleSheet.create({
         // justifyContent: 'center',
         // alignItems: 'center',
          backgroundColor: '#fff',
+         flexDirection:'column'
       }
 });
