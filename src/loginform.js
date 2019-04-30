@@ -17,6 +17,7 @@ export default class LoginForm extends Component<Props> {
         fetch('http://cinebamo.it-students.fr/login', {
         // fetch('http://192.168.33.15:3000/login', {
           method: 'POST',
+          credentials: 'same-origin',
           headers: {
             'content-Type': 'application/json',
           },
@@ -25,23 +26,27 @@ export default class LoginForm extends Component<Props> {
             password: this.state.identificationPassword
           }),
         })
-          .then((response) => response.text())
+          .then((response) => {
+            var cookies = {};
+            var cooks = response.headers.map['set-cookie'].split(';');
+            for (var i in cooks){
+                var [name, value]= cooks[i].trim().split('=');
+                console.log(name, value);
+                cookies[name]= value;
+            }
+            console.log('cookies.token ' + cookies.token);
+            AsyncStorage.setItem('token', cookies.token);
+            return response.json();
+          })
           .then((datas) => {
-            console.log(datas);
-            if (datas != '') {
-                this.props.setParentState({isLogged : true}) ;
-                console.log(this.state)
-                console.log('ihavetoken'+datas._id);
-                _storeData = async () => {
-                    try {
-                      await AsyncStorage.setItem('TOKEN',datas._id);
-                    console.log('ihavetoken'+datas._id);
-                    } catch (error) {
-                      console.log('Nok token');
-                    }
-                  };
+            console.log("login ok" + datas);
+
+            if(datas !== '') {
+                console.log(datas);
+                  this.props.setParentState({isLogged : true});
+                  console.log(this.state);
               } else {
-                this.setState({identificationPassword:''})
+                this.setState({identificationPassword:''});
                 alert(datas) ;
               }      
           })

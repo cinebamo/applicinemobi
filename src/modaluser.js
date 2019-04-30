@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Modal, Alert, FlatList } from 'react-native';
+import { AsyncStorage, StyleSheet, Text, View, TextInput, TouchableOpacity, Modal, Alert } from 'react-native';
 
 type Props = {};
 export default class ModalUser extends Component<Props> {
@@ -11,6 +11,7 @@ export default class ModalUser extends Component<Props> {
     age: "",
     email: "",
     password: "",
+
   };
 
   setModalVisible(visible) {
@@ -18,18 +19,62 @@ export default class ModalUser extends Component<Props> {
     this.setState({ modalVisible: visible });
   }
 
-  componentWillMount() {
-    fetch('http://cinebamo.it-students.fr/users/')
-      // fetch('http://192.168.33.15:3000/users/')
-      .then(function (result) { return result.json({}) })
-      .then(function (datas) { this.setState.users = datas }.bind(this))
-  }
+  
+  
 
+  componentWillMount() {
+
+    // // const userId = async() =>{
+    //   var userId = async() =>{
+    //   try{
+    //     userId = await AsyncStorage.getItem('token', cookies.token); 
+    //   }catch (error){
+    //     console.log('nokUserId');
+    //   }
+    //   console.log(UserId);
+    //   return userId;
+      
+    // }
+    _retrieveData = async () => {
+      try {
+        const userId = await AsyncStorage.getItem('token');
+        if (userId !== null) {
+          // We have data!!
+          console.log(userId);
+          return userId;
+        }
+      } catch (error) {
+        console.log('nokUserId');
+      }
+    };
+
+
+
+    fetch('http://cinebamo.it-students.fr/users/' + userId,{
+      // fetch('http://192.168.33.15:3000/users/')
+      method: 'GET',
+      credentials: 'same-origin',
+    }).then(function (result) { console.log( 'result' + result); return result.json({}) })
+      .then(function (datas) {  
+        console.log(datas);
+    this.setState({
+        name: datas.name,
+        firstname: datas.firstname,
+        age: datas.age,
+        email: datas.email,
+        password: datas.password
+      }) 
+      }.bind(this)); 
+      console.log(datas.name);
+   
+  }
+  
   _onUpdate() {
 
     fetch('http://cinebamo.it-students.fr/users', {
       // fetch('http://http://192.168.33.15:3000/users', {
       method: 'PUT',
+      credentials: 'same-origin',
       headers: {
         'content-Type': 'application/json',
       },
@@ -43,20 +88,20 @@ export default class ModalUser extends Component<Props> {
     })
       .then((response) => response.text())
       .then((datas) => {
-        if (datas !== '') {
-          this.props.setParentState({ isLogged: true });
-          console.log(this.state)
-          _storeData = async () => {
-            try {
-              await AsyncStorage.setItem('TOKEN', response._id);
-            } catch (error) {
-              // Nok token
-            }
-          };
-        } else {
+        // if (datas !== '') {
+        //   this.props.setParentState({ isLogged: true });
+        //   console.log(this.state)
+        //   _storeData = async () => {
+        //     try {
+        //       await AsyncStorage.setItem('TOKEN', response._id);
+        //     } catch (error) {
+        //       // Nok token
+        //     }
+        //   };
+        // } else {
 
-          alert(datas);
-        }
+        //   alert(datas);
+        // }
       })
 
   }
@@ -66,6 +111,7 @@ export default class ModalUser extends Component<Props> {
     fetch('http://cinebamo.it-students.fr/users', {
       // fetch('http://http://192.168.33.15:3000/users', {
       method: 'DELETE',
+      credentials: 'same-origin',
       headers: {
         'content-Type': 'application/json',
       },
@@ -105,15 +151,11 @@ export default class ModalUser extends Component<Props> {
                   Me déconnecter</Text>
               </TouchableOpacity>
 
-              <FlatList
-                data={this.state.users}
-                renderItem={({ item }) => (
-
                   <View style={styles.container}>
 
                     <View style={{ flexDirection: 'row' }}>
                       <TextInput style={styles.input}
-                        placeholder={item.name}
+                        value={this.state.name}
                         autoCapitalize="none"
                         autoCorrect={false}
                         onChangeText={(text) => { this.setState({ name: text }) }} />
@@ -121,7 +163,7 @@ export default class ModalUser extends Component<Props> {
 
                     <View style={{ flexDirection: 'row' }}>
                       <TextInput style={styles.input}
-                        placeholder={item.firstname}
+                        // value={this.state.firstname}
                         autoCapitalize="none"
                         autoCorrect={false}
                         onChangeText={(text) => { this.setState({ firstname: text }) }} />
@@ -129,7 +171,7 @@ export default class ModalUser extends Component<Props> {
 
                     <View style={{ flexDirection: 'row' }}>
                       <TextInput style={styles.input}
-                        placeholder={item.age}
+                        // value={this.state.age}
                         autoCapitalize="none"
                         autoCorrect={false}
                         onChangeText={(text) => { this.setState({ age: text }) }} />
@@ -137,7 +179,7 @@ export default class ModalUser extends Component<Props> {
 
                     <View style={{ flexDirection: 'row' }}>
                       <TextInput style={styles.input}
-                        placeholder={item.email}
+                        // value={this.state.email}
                         autoCapitalize="none"
                         autoCorrect={false}
                         onChangeText={(text) => { this.setState({ email: text }) }} />
@@ -145,7 +187,7 @@ export default class ModalUser extends Component<Props> {
 
                     <View style={{ flexDirection: 'row' }}>
                       <TextInput style={styles.input}
-                        placeholder={item.password}
+                        // value={this.state.password}
                         autoCapitalize="none"
                         autoCorrect={false}
                         onChangeText={(text) => { this.setState({ password: text }) }} />
@@ -162,13 +204,14 @@ export default class ModalUser extends Component<Props> {
                     </View>
 
                   </View >
-                )} />
+                
               <TouchableOpacity
                 onPress={() => {
                   this.setModalVisible(!this.state.modalVisible);
                 }}>
                 <Text style={{ fontSize: 30 }}>&#10006;</Text>
               </TouchableOpacity>
+
             </View>
           </View>
         </Modal>
@@ -179,7 +222,7 @@ export default class ModalUser extends Component<Props> {
           }}>
           <Text style={{ fontSize: 30 }}>&#128100;</Text>
         </TouchableOpacity>
-        {/* fin de la modal */}
+
       </View>
 
     );

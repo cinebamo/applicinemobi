@@ -19,6 +19,7 @@ export default class AccountForm extends Component<Props> {
         fetch('http://cinebamo.it-students.fr/users', {
         // fetch('http://192.168.33.15:3000/users', {
           method: 'POST',
+          credentials: 'same-origin',
           headers: {
             'content-Type': 'application/json',
           },

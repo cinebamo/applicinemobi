@@ -20,7 +20,7 @@ export default class App extends Component<Props> {
 
   state = {
     isLogin: true,
-    isLogged: true,
+    isLogged: false,
 
     modalVisible: false,
     name: "",
