@@ -11,67 +11,48 @@ export default class ModalUser extends Component<Props> {
     age: "",
     email: "",
     password: "",
-
   };
 
   setModalVisible(visible) {
 
     this.setState({ modalVisible: visible });
   }
-
   
-  
-
   componentWillMount() {
 
-    // // const userId = async() =>{
-    //   var userId = async() =>{
-    //   try{
-    //     userId = await AsyncStorage.getItem('token', cookies.token); 
-    //   }catch (error){
-    //     console.log('nokUserId');
-    //   }
-    //   console.log(UserId);
-    //   return userId;
-      
-    // }
-    // _retrieveData = async () => {
+    // async () => {
     //   try {
     //     const userId = await AsyncStorage.getItem('token');
-    //     if (userId !== null) {
-    //       // We have data!!
-    //       console.log(userId);
-    //       return userId;
-    //     }
+    //       console.log('asyncGetToken: '+userId);
+    //       return userId.json({});
     //   } catch (error) {
     //     console.log('nokUserId');
     //   }
-    // };
-
-
-
-    // fetch('http://cinebamo.it-students.fr/users/' + userId,{
-    //   // fetch('http://192.168.33.15:3000/users/')
-    //   method: 'GET',
-    //   credentials: 'same-origin',
-    // }).then(function (result) { console.log( 'result' + result); return result.json({}) })
-    //   .then(function (datas) {  
-    //     console.log(datas);
-    // this.setState({
-    //     name: datas.name,
-    //     firstname: datas.firstname,
-    //     age: datas.age,
-    //     email: datas.email,
-    //     password: datas.password
-    //   }) 
-    //   }.bind(this)); 
-    //   console.log(datas.name);
-   
+    // }
+    var userId = '5cc9b7136db6c90f7a2d7dad';
+    // var userId = AsyncStorage.getItem('token');
+    console.log('asyncGetToken: '+userId);
+    fetch('http://cinebamo.it-students.fr/users/'+userId, {
+      // fetch('http://192.168.33.15:3000/users/')
+      method: 'GET',
+      credentials: 'same-origin',
+    }).then(function (result) { console.log( 'result' + result); return result.json({}) })
+      .then(function (datas) {  console.log(datas);
+        this.setState({
+        name: datas.name,
+        firstname: datas.firstname,
+        age: datas.age,
+        email: datas.email,
+        password: datas.password,
+      }) 
+      }
+      .bind(this)
+      ); 
   }
-  
-  _onUpdate() {
 
-    fetch('http://cinebamo.it-students.fr/users', {
+  _onUpdate() {
+    var userId = '5cc9b7136db6c90f7a2d7dad';
+    fetch('http://cinebamo.it-students.fr/users/'+userId, {
       // fetch('http://http://192.168.33.15:3000/users', {
       method: 'PUT',
       credentials: 'same-origin',
@@ -85,31 +66,25 @@ export default class ModalUser extends Component<Props> {
         email: this.state.email,
         password: this.state.password
       }),
-    })
-      .then((response) => response.text())
-      .then((datas) => {
-        // if (datas !== '') {
-        //   this.props.setParentState({ isLogged: true });
-        //   console.log(this.state)
-        //   _storeData = async () => {
-        //     try {
-        //       await AsyncStorage.setItem('TOKEN', response._id);
-        //     } catch (error) {
-        //       // Nok token
-        //     }
-        //   };
-        // } else {
-
-        //   alert(datas);
-        // }
-      })
-
+    }).then(function (result) { console.log( 'result' + result); return result.json({}) })
+    .then(function (datas) {  console.log(datas);
+      this.setState({
+      name: datas.name,
+      firstname: datas.firstname,
+      age: datas.age,
+      email: datas.email,
+      password: datas.password,
+    }) 
+    }
+    .bind(this)
+    ); 
   }
 
-  _onDelete() {
 
-    fetch('http://cinebamo.it-students.fr/users', {
-      // fetch('http://http://192.168.33.15:3000/users', {
+  _onDelete() {
+    var userId = '5cc9b7136db6c90f7a2d7dad';
+    fetch('http://cinebamo.it-students.fr/users/' +userId, {
+  //     // fetch('http://http://192.168.33.15:3000/users', {
       method: 'DELETE',
       credentials: 'same-origin',
       headers: {
@@ -122,17 +97,17 @@ export default class ModalUser extends Component<Props> {
       .then((datas) => {
         console.log('compte supprimer');
       })
-  }
+ }
 
 
-  _onLogout() {
+   _onLogout() {
     this.props.setParentState({ isLogged: false });
-  }
+   }
 
   render() {
     return (
 
-      <View style={{ marginTop: 22, marginLeft: 250 }}>
+      <View style={{ marginLeft: 'auto', marginTop: 35, paddingRight: 10  }}>
 
         <Modal
           animationType="slide"
@@ -143,7 +118,7 @@ export default class ModalUser extends Component<Props> {
           }}>
 
           <View style={{ marginTop: 22 }}>
-            <View style={styles.modalUser} data={this.state.users}>
+            <View style={styles.modalUser}>
               <Text>Mon compte</Text>
               <TouchableOpacity>
                 <Text style={{ marginTop: 10, color: '#33B8FF' }}
@@ -163,7 +138,7 @@ export default class ModalUser extends Component<Props> {
 
                     <View style={{ flexDirection: 'row' }}>
                       <TextInput style={styles.input}
-                        // value={this.state.firstname}
+                        value={this.state.firstname}
                         autoCapitalize="none"
                         autoCorrect={false}
                         onChangeText={(text) => { this.setState({ firstname: text }) }} />
@@ -171,7 +146,7 @@ export default class ModalUser extends Component<Props> {
 
                     <View style={{ flexDirection: 'row' }}>
                       <TextInput style={styles.input}
-                        // value={this.state.age}
+                        value={this.state.age}
                         autoCapitalize="none"
                         autoCorrect={false}
                         onChangeText={(text) => { this.setState({ age: text }) }} />
@@ -179,7 +154,7 @@ export default class ModalUser extends Component<Props> {
 
                     <View style={{ flexDirection: 'row' }}>
                       <TextInput style={styles.input}
-                        // value={this.state.email}
+                        value={this.state.email}
                         autoCapitalize="none"
                         autoCorrect={false}
                         onChangeText={(text) => { this.setState({ email: text }) }} />
@@ -187,7 +162,7 @@ export default class ModalUser extends Component<Props> {
 
                     <View style={{ flexDirection: 'row' }}>
                       <TextInput style={styles.input}
-                        // value={this.state.password}
+                        value={this.state.password}
                         autoCapitalize="none"
                         autoCorrect={false}
                         onChangeText={(text) => { this.setState({ password: text }) }} />
