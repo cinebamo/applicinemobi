@@ -29,6 +29,8 @@ export default class ModalUser extends Component<Props> {
     //     console.log('nokUserId');
     //   }
     // }
+
+    // test avec login = a.fr password= a
     var userId = '5cc9b7136db6c90f7a2d7dad';
     // var userId = AsyncStorage.getItem('token');
     console.log('asyncGetToken: '+userId);
