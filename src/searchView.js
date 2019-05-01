@@ -37,9 +37,9 @@ export default class SearchView extends Component<Props> {
                     movies: responseJson
                 })
                 //console.log(movies)
-                this.props.setParentState({ titreView: 'Résultat de la recherche' })
-                this.props.setParentState({ movies: responseJson })
-                console.log(this.props)
+                this.props.setParentState({ titreView: 'Résultat de la recherche',movies: responseJson, bool_movieView: false })
+                
+                
             }).catch(function (error) { // Pour le warning d'erreur "unhandled promise rejection"
                 console.log('There has been a problem with your fetch operation: ' + error.message);
                 // ADD THIS THROW error
