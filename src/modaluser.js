@@ -17,91 +17,94 @@ export default class ModalUser extends Component<Props> {
 
     this.setState({ modalVisible: visible });
   }
-  
+
   componentWillMount() {
-    AsyncStorage.getItem('token', (st, token)=> {
+    AsyncStorage.getItem('token', (st, token) => {
       console.log('arguments', token);
-      fetch('http://cinebamo.it-students.fr/users/'+token, {
+      fetch('http://cinebamo.it-students.fr/users/' + token, {
         // fetch('http://192.168.33.15:3000/users/')
         method: 'GET',
         credentials: 'same-origin',
-      }).then(function (result) { console.log( 'result', result); return result.json({}) })
-        .then(function (datas) {  console.log(datas);
+      }).then(function (result) { console.log('result', result); return result.json({}) })
+        .then(function (datas) {
+          console.log(datas);
           this.setState({
             name: datas.name,
             firstname: datas.firstname,
             age: datas.age,
             email: datas.email,
             password: datas.password,
-          }) 
+          })
         }.bind(this)
-        ); 
+        );
     })
 
   }
 
   _onUpdate() {
-    AsyncStorage.getItem('token', (st, token)=> {
-    fetch('http://cinebamo.it-students.fr/users/'+token, {
-      // fetch('http://http://192.168.33.15:3000/users', {
-      method: 'PUT',
-      credentials: 'same-origin',
-      headers: {
-        'content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: this.state.name,
-        firstname: this.state.firstname,
-        age: this.state.age,
-        email: this.state.email,
-        password: this.state.password
-      }),
-    }).then(function (result) { console.log( 'result', result); return result.json({}) })
-    .then(function (datas) {  console.log(datas);
-      this.setState({
-      name: datas.name,
-      firstname: datas.firstname,
-      age: datas.age,
-      email: datas.email,
-      password: datas.password,
-    }) 
-    }
-    .bind(this)
-    ); 
-  })
+
+    AsyncStorage.getItem('token', (st, token) => {
+      fetch('http://cinebamo.it-students.fr/users/' + token, {
+        // fetch('http://http://192.168.33.15:3000/users', {
+        method: 'PUT',
+        credentials: 'same-origin',
+        headers: {
+          'content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: this.state.name,
+          firstname: this.state.firstname,
+          age: this.state.age,
+          email: this.state.email,
+          password: this.state.password
+        }),
+      }).then(function (result) { console.log('result', result); return result.json({}) })
+        .then(function (datas) {
+          console.log(datas);
+          this.setState({
+            name: datas.name,
+            firstname: datas.firstname,
+            age: datas.age,
+            email: datas.email,
+            password: datas.password,
+          })
+        }
+          .bind(this)
+        );
+    })
   }
 
   _onDelete() {
-    AsyncStorage.getItem('token', (st, token)=> {
-    fetch('http://cinebamo.it-students.fr/users/' +token, {
-  //     // fetch('http://http://192.168.33.15:3000/users', {
-      method: 'DELETE',
-      credentials: 'same-origin',
-      headers: {
-        'content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id: this.state.id
-      }),
-    }).then((response) => response.text())
-      .then((datas) => {
-        console.log('compte supprimer');
-      })
+    AsyncStorage.getItem('token', (st, token) => {
+      fetch('http://cinebamo.it-students.fr/users/' + token, {
+        //     // fetch('http://http://192.168.33.15:3000/users', {
+        method: 'DELETE',
+        credentials: 'same-origin',
+        headers: {
+          'content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: this.state.id
+        }),
+      }).then((response) => response.text())
+        .then((datas) => {
+          console.log('compte supprimer');
+        })
     })
- }
+  }
 
-   _onLogout() {
-    AsyncStorage.removeItem('token', (st, token)=> {
+  _onLogout() {
+    AsyncStorage.removeItem('token', (st, token) => {
       this.setModalVisible(!this.state.modalVisible);
       this.props.setParentState({ isLogged: false });
-  
-  })
+
+    })
   }
 
   render() {
     return (
 
-      <View style={{ marginLeft: 'auto', marginTop: 35, paddingRight: 10  }}>
+      <View style={{ marginLeft: 'auto', marginTop: 30, paddingRight: 10 }}>
 
         <Modal
           animationType="slide"
@@ -120,60 +123,60 @@ export default class ModalUser extends Component<Props> {
                   Me déconnecter</Text>
               </TouchableOpacity>
 
-                  <View style={styles.container}>
+              <View style={styles.container}>
 
-                    <View style={{ flexDirection: 'row' }}>
-                      <TextInput style={styles.input}
-                        value={this.state.name}
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        onChangeText={(text) => { this.setState({ name: text }) }} />
-                    </View>
+                <View style={{ flexDirection: 'row' }}>
+                  <TextInput style={styles.input}
+                    value={this.state.name}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    onChangeText={(text) => { this.setState({ name: text }) }} />
+                </View>
 
-                    <View style={{ flexDirection: 'row' }}>
-                      <TextInput style={styles.input}
-                        value={this.state.firstname}
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        onChangeText={(text) => { this.setState({ firstname: text }) }} />
-                    </View>
+                <View style={{ flexDirection: 'row' }}>
+                  <TextInput style={styles.input}
+                    value={this.state.firstname}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    onChangeText={(text) => { this.setState({ firstname: text }) }} />
+                </View>
 
-                    <View style={{ flexDirection: 'row' }}>
-                      <TextInput style={styles.input}
-                        value={this.state.age}
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        onChangeText={(text) => { this.setState({ age: text }) }} />
-                    </View>
+                <View style={{ flexDirection: 'row' }}>
+                  <TextInput style={styles.input}
+                    value={this.state.age}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    onChangeText={(text) => { this.setState({ age: text }) }} />
+                </View>
 
-                    <View style={{ flexDirection: 'row' }}>
-                      <TextInput style={styles.input}
-                        value={this.state.email}
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        onChangeText={(text) => { this.setState({ email: text }) }} />
-                    </View>
+                <View style={{ flexDirection: 'row' }}>
+                  <TextInput style={styles.input}
+                    value={this.state.email}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    onChangeText={(text) => { this.setState({ email: text }) }} />
+                </View>
 
-                    <View style={{ flexDirection: 'row' }}>
-                      <TextInput style={styles.input}
-                        value={this.state.password}
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        onChangeText={(text) => { this.setState({ password: text }) }} />
-                    </View>
+                <View style={{ flexDirection: 'row' }}>
+                  <TextInput style={styles.input}
+                    value={this.state.password}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    onChangeText={(text) => { this.setState({ password: text }) }} />
+                </View>
 
-                    <View style={{ margin: 5, flexDirection: 'row' }}>
-                      <TouchableOpacity onPress={this._onUpdate.bind(this)} style={styles.button}>
-                        <Text>Modifier mon compte</Text>
-                      </TouchableOpacity>
+                <View style={{ margin: 5, flexDirection: 'row' }}>
+                  <TouchableOpacity onPress={this._onUpdate.bind(this)} style={styles.button}>
+                    <Text>Modifier mon compte</Text>
+                  </TouchableOpacity>
 
-                      <TouchableOpacity onPress={this._onDelete.bind(this)} style={styles.buttonRed}>
-                        <Text>Supprimer mon compte</Text>
-                      </TouchableOpacity>
-                    </View>
+                  <TouchableOpacity onPress={this._onDelete.bind(this)} style={styles.buttonRed}>
+                    <Text>Supprimer mon compte</Text>
+                  </TouchableOpacity>
+                </View>
 
-                  </View >
-                
+              </View>
+
               <TouchableOpacity
                 onPress={() => {
                   this.setModalVisible(!this.state.modalVisible);

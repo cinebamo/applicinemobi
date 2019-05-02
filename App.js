@@ -28,7 +28,7 @@ export default class App extends Component<Props> {
     return (
 
       <View style={styles.container}>
-        
+
         {
 
           (this.state.isLogged) ? (
@@ -36,18 +36,28 @@ export default class App extends Component<Props> {
             <Dashboard />
 
           ) : (
-<View style={{ height: 100, flexDirection: 'row', margin: 20, padding: 20 }}>
-                  <Image source={require('./asset/logo_cinebamo.png')} style={{ height: 100, width: 100 }} />
-                </View>,
 
               (this.state.isLogin) ? (
+                <View>
 
-                <LoginForm setParentState={this.setState.bind(this)} />
+                  <View style={{ height: 100, flexDirection: 'row', margin: 20, padding: 20 }}>
+                    <Image source={require('./asset/logo_cinebamo.png')} style={{ height: 100, width: 100 }} />
+                  </View>
 
+                  <LoginForm setParentState={this.setState.bind(this)} />
+
+                </View>
               ) : (
 
-                  <AccountForm setParentState={this.setState.bind(this)} />
+                  <View>
 
+                    <View style={{ height: 100, flexDirection: 'row', margin: 20, padding: 20 }}>
+                      <Image source={require('./asset/logo_cinebamo.png')} style={{ height: 100, width: 100 }} />
+                    </View>
+
+                    <AccountForm setParentState={this.setState.bind(this)} />
+                    
+                  </View>
                 )
             )
         }
@@ -84,5 +94,5 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 5,
   },
-  
+
 });
