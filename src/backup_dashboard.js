@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import ModalUser from './modaluser.js';
 import SearchView from './searchView';
 // import FilmView from './filmView';
@@ -70,7 +70,18 @@ export default class Dashboard extends Component<Props> {
                 </View>
                 {
                     (this.state.bool_movieView) ? (
-                        <ScrollView>
+                        <View>
+                                <FlatList
+                                    data={this.state.currentMovie}
+                                    keyExtractor={(item, index) => index.toString()}
+                                    renderItem={({ item }) => (
+
+                                       
+                                            <Text>{item.title}</Text>
+                                            <Text>{item.summary}</Text>
+                                        </TouchableOpacity>
+                                    )}>
+                                </FlatList>
                             <View style={styles.imageFilmView}>
                                 <Image
                                     style={styles.imageFilmStyle}
@@ -99,7 +110,7 @@ export default class Dashboard extends Component<Props> {
                                     
                                 </View>
                             )}
-                        </ScrollView>
+                        </View>
 
                     ) : (
                             <View style={styles.form}>
