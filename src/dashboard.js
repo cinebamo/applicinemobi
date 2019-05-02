@@ -42,19 +42,19 @@ export default class Dashboard extends Component<Props> {
             });
     }
 
-    // get_currentMovie() {
-    //     return this.state.currentMovie;
-    // }
-
     MovieTouch(filmInfo) {
 
         this.setState({ currentMovie: filmInfo })
-        this.state.bool_movieView = true
+        this.setState({ bool_movieView: true })
+
 
     }
 
     _buttonComment() {
-        this.state.showCommentModal = true
+        this.setState({ showCommentModal: true })
+    }
+    _buttonBack() {
+        this.setState({ bool_movieView: false })
     }
     render() {
         return (
@@ -83,22 +83,32 @@ export default class Dashboard extends Component<Props> {
                             <Text>Acteurs : {this.state.currentMovie.actors.join(', ')}</Text>
                             <Text>Resumé : {this.state.currentMovie.summary}</Text>
 
-                            <TouchableOpacity
-                                style={styles.buttonComment}
-                                onPress={() => {
-                                    this._buttonComment();
-                                }}>
-                                <Text style={{ fontSize: 30 }}>Commenter</Text>
-                            </TouchableOpacity>
-                            {(this.state.showCommentModal) ? (
-                                <View>
-                                    <Text>Modal Comment ici si showCommentModal = true</Text>
-                                </View>
-                            ) : (
-                                <View>
-                                    
-                                </View>
-                            )}
+                            <View style={styles.buttonFilm_View}>
+
+                                <TouchableOpacity
+                                    style={styles.buttonFilmComment}
+                                    onPress={() => {
+                                        this._buttonComment();
+                                    }}>
+                                    <Text >Commenter</Text>
+                                </TouchableOpacity>
+                                {(this.state.showCommentModal) ? (
+                                    <View>
+                                        <Text>Modal Comment ici si showCommentModal = true</Text>
+                                    </View>
+                                ) : (
+                                        <View>
+
+                                        </View>
+                                    )}
+                                <TouchableOpacity
+                                    style={styles.buttonFilmBack}
+                                    onPress={() => {
+                                        this._buttonBack();
+                                    }}>
+                                    <Text >Retour</Text>
+                                </TouchableOpacity>
+                            </View>
                         </ScrollView>
 
                     ) : (
@@ -109,9 +119,9 @@ export default class Dashboard extends Component<Props> {
                                     keyExtractor={(item, index) => index.toString()}
                                     renderItem={({ item }) => (
 
-                                        <TouchableOpacity 
-                                        
-                                        onPress={() => this.MovieTouch(item)}>
+                                        <TouchableOpacity
+
+                                            onPress={() => this.MovieTouch(item)}>
                                             <Image
                                                 style={{ width: 50, height: 60 }}
                                                 source={{ uri: item.posterLink }}
@@ -122,7 +132,7 @@ export default class Dashboard extends Component<Props> {
                                     )}>
                                 </FlatList>
                             </View>
-                    )
+                        )
                 }
             </View>
         );
@@ -166,9 +176,31 @@ const styles = StyleSheet.create({
         height: 150,
         width: 100
     },
+    buttonFilm_View: {
+        flexDirection: "column",
+
+    },
+    buttonFilmBack: {
+        backgroundColor: '#1e90ff',
+        borderRadius: 5,
+        margin: 5,
+        padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    buttonFilmComment: {
+        backgroundColor: '#DC143C',
+        borderRadius: 5,
+        marginLeft: 3,
+        marginRight: 3,
+        margin: 5,
+        padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     buttonComment: {
         backgroundColor: 'silver',
         borderRadius: 5,
-        marginRight:5,
+        marginRight: 5,
     }
 });

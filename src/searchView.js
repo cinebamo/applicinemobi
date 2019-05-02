@@ -14,15 +14,13 @@ export default class SearchView extends Component<Props> {
     }
 
     _buttonSearch() {
-        console.log("search_TitleActor : +" + this.state.search_TitleActor+"+")
-        console.log("search_Category : " + this.state.search_Category)
-
         // Chercher les films
+
         var canSearch = true
-        if((search_TitleActor.length == 0) &&(search_Category.length == 0)) {
+        if((typeof this.search_TitleActor == 'undefined') && (typeof this.search_Category == 'undefined')) {
             canSearch = false
         }
-        
+        console.log("canSearch = " + canSearch)
         if (canSearch) {
             var route = 'http://cinebamo.it-students.fr/search/?'
             var String_titleGet = 'title_actor=' + this.state.search_TitleActor
@@ -41,12 +39,10 @@ export default class SearchView extends Component<Props> {
                     movies: responseJson
                 })
                 //console.log(movies)
-                this.props.setParentState({ titreView: 'Résultat de la recherche',movies: responseJson, bool_movieView: false })
-                
-                
+                this.props.setParentState({ titreView: 'Résultat de la recherche', movies: responseJson, bool_movieView: false })            
             }).catch(function (error) { // Pour le warning d'erreur "unhandled promise rejection"
                 console.log('There has been a problem with your fetch operation: ' + error.message);
-                // ADD THIS THROW error
+               
                 throw error;
             });
         } else {
@@ -59,7 +55,7 @@ export default class SearchView extends Component<Props> {
         return (
 
             <View style={styles.container}>
-                {/* <View style={{flex:1}}> */}
+                
                 <View style={styles.viewSearch}>
                     <TextInput style={styles.input}
                         placeholder="Titre ou Acteur"
@@ -74,7 +70,7 @@ export default class SearchView extends Component<Props> {
                         <Text style={{ fontSize: 30 }}>Go !</Text>
                     </TouchableOpacity>
                 </View>
-                {/* </View> */}
+              
 
                 <Picker
                     selectedValue={this.state.search_Category}
@@ -104,10 +100,6 @@ const styles = StyleSheet.create({
         justifyContent:'flex-end'
     },
     container: {
-        //flex: 1,
-        // justifyContent: 'center',
-        // alignItems: 'center',
-        //backgroundColor: '#ff0000',
         flexDirection: 'column'
     },
     input: {
