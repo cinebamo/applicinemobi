@@ -31,9 +31,9 @@ export default class AccountForm extends Component<Props> {
         })
           .then((response) => response.text())
           .then((datas) => {
-            console.log(datas);
-            if (datas == 'creation ok') {
-                this.props.setParentState({isLogged : true}) ;
+            console.log( 'create',datas);
+            if (datas !== '') {
+                this.props.setParentState({isLogin : true}) ;
                 console.log(this.state)
               } else {
                 this.setState({identificationPassword:''})

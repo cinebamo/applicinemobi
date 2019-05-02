@@ -15,42 +15,41 @@ export default class LoginForm extends Component<Props> {
         console.log(this.state);
         // envoyer
         fetch('http://cinebamo.it-students.fr/login', {
-        // fetch('http://192.168.33.15:3000/login', {
-          method: 'POST',
-          credentials: 'same-origin',
-          headers: {
-            'content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: this.state.identificationLogin,
-            password: this.state.identificationPassword
-          }),
+            // fetch('http://192.168.33.15:3000/login', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: this.state.identificationLogin,
+                password: this.state.identificationPassword
+            }),
         })
-          .then((response) => {
-            var cookies = {};
-            var cooks = response.headers.map['set-cookie'].split(';');
-            for (var i in cooks){
-                var [name, value]= cooks[i].trim().split('=');
-                console.log(name, value);
-                cookies[name]= value;
-            }
-            console.log('cookies.token ' + cookies.token);
-            AsyncStorage.setItem('token', cookies.token.toString());
-            return response.json();
-          })
-          .then((datas) => {
-            console.log("login ok", datas);
-
-            if(datas !== '') {
-                console.log(datas);
-                  this.props.setParentState({isLogged : true});
-                  console.log(this.state);
-              } else {
-                this.setState({identificationPassword:''});
-                alert(datas) ;
-              }      
-          })
-      }
+            .then((response) => {
+                var cookies = {};
+                var cooks = response.headers.map['set-cookie'].split(';');
+                for (var i in cooks) {
+                    var [name, value] = cooks[i].trim().split('=');
+                    console.log(name, value);
+                    cookies[name] = value;
+                }
+                console.log('cookies.token ' + cookies.token);
+                AsyncStorage.setItem('token', cookies.token.toString());
+                return response.json();
+            })
+            .then((datas) => {
+                if (datas.message == 'connection reussie') {
+                    console.log('datas ok?',datas.message);
+                    this.props.setParentState({ isLogged: true });
+                    console.log(this.state);
+                } else {
+                    console.log('datas Nok',datas.result);
+                    this.setState({ identificationPassword: '' });
+                    alert('Veuillez vérifier votre saisie');
+                }
+            })
+    }
 
     render() {
         return (
@@ -61,7 +60,7 @@ export default class LoginForm extends Component<Props> {
                         placeholder="login"
                         autoCapitalize="none"
                         autoCorrect={false}
-                        onChangeText={(text) => {this.setState({ identificationLogin: text })}} />
+                        onChangeText={(text) => { this.setState({ identificationLogin: text }) }} />
                 </View>
 
                 <View style={{ flexDirection: 'row' }}>
@@ -69,7 +68,7 @@ export default class LoginForm extends Component<Props> {
                         placeholder="password"
                         autoCapitalize="none"
                         autoCorrect={false}
-                        onChangeText={(text) => {this.setState({ identificationPassword: text })}} />
+                        onChangeText={(text) => { this.setState({ identificationPassword: text }) }} />
                 </View>
 
                 <View style={{ margin: 5 }}>
@@ -79,7 +78,7 @@ export default class LoginForm extends Component<Props> {
                 </View>
 
                 <View style={{ margin: 5 }}>
-                    <TouchableOpacity onPress={() => {this.props.setParentState({ isLogin: false }) }} style={styles.button}>
+                    <TouchableOpacity onPress={() => { this.props.setParentState({ isLogin: false }) }} style={styles.button}>
                         <Text>Créer un compte</Text>
                     </TouchableOpacity>
                 </View>
