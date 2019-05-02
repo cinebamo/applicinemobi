@@ -19,42 +19,30 @@ export default class ModalUser extends Component<Props> {
   }
   
   componentWillMount() {
+    AsyncStorage.getItem('token', (st, token)=> {
+      console.log('arguments', token);
+      fetch('http://cinebamo.it-students.fr/users/'+token, {
+        // fetch('http://192.168.33.15:3000/users/')
+        method: 'GET',
+        credentials: 'same-origin',
+      }).then(function (result) { console.log( 'result', result); return result.json({}) })
+        .then(function (datas) {  console.log(datas);
+          this.setState({
+            name: datas.name,
+            firstname: datas.firstname,
+            age: datas.age,
+            email: datas.email,
+            password: datas.password,
+          }) 
+        }.bind(this)
+        ); 
+    })
 
-    // async () => {
-    //   try {
-    //     const userId = await AsyncStorage.getItem('token');
-    //       console.log('asyncGetToken: '+userId);
-    //       return userId.json({});
-    //   } catch (error) {
-    //     console.log('nokUserId');
-    //   }
-    // }
-
-    // test avec login = a.fr password= a
-    var userId = '5cc9b7136db6c90f7a2d7dad';
-    // var userId = AsyncStorage.getItem('token');
-    console.log('asyncGetToken: '+userId);
-    fetch('http://cinebamo.it-students.fr/users/'+userId, {
-      // fetch('http://192.168.33.15:3000/users/')
-      method: 'GET',
-      credentials: 'same-origin',
-    }).then(function (result) { console.log( 'result' + result); return result.json({}) })
-      .then(function (datas) {  console.log(datas);
-        this.setState({
-        name: datas.name,
-        firstname: datas.firstname,
-        age: datas.age,
-        email: datas.email,
-        password: datas.password,
-      }) 
-      }
-      .bind(this)
-      ); 
   }
 
   _onUpdate() {
-    var userId = '5cc9b7136db6c90f7a2d7dad';
-    fetch('http://cinebamo.it-students.fr/users/'+userId, {
+    AsyncStorage.getItem('token', (st, token)=> {
+    fetch('http://cinebamo.it-students.fr/users/'+token, {
       // fetch('http://http://192.168.33.15:3000/users', {
       method: 'PUT',
       credentials: 'same-origin',
@@ -68,7 +56,7 @@ export default class ModalUser extends Component<Props> {
         email: this.state.email,
         password: this.state.password
       }),
-    }).then(function (result) { console.log( 'result' + result); return result.json({}) })
+    }).then(function (result) { console.log( 'result', result); return result.json({}) })
     .then(function (datas) {  console.log(datas);
       this.setState({
       name: datas.name,
@@ -80,12 +68,12 @@ export default class ModalUser extends Component<Props> {
     }
     .bind(this)
     ); 
+  })
   }
 
-
   _onDelete() {
-    var userId = '5cc9b7136db6c90f7a2d7dad';
-    fetch('http://cinebamo.it-students.fr/users/' +userId, {
+    AsyncStorage.getItem('token', (st, token)=> {
+    fetch('http://cinebamo.it-students.fr/users/' +token, {
   //     // fetch('http://http://192.168.33.15:3000/users', {
       method: 'DELETE',
       credentials: 'same-origin',
@@ -99,12 +87,16 @@ export default class ModalUser extends Component<Props> {
       .then((datas) => {
         console.log('compte supprimer');
       })
+    })
  }
 
-
    _onLogout() {
-    this.props.setParentState({ isLogged: false });
-   }
+    AsyncStorage.removeItem('token', (st, token)=> {
+      this.setModalVisible(!this.state.modalVisible);
+      this.props.setParentState({ isLogged: false });
+  
+  })
+  }
 
   render() {
     return (

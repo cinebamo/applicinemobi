@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 
-
 type Props = {};
 export default class AccountForm extends Component<Props> {
 
@@ -12,7 +11,6 @@ export default class AccountForm extends Component<Props> {
         email: "",
         password: "",
     }
-
 
     _onCreate() {
         console.log('onCreate')
@@ -45,9 +43,7 @@ export default class AccountForm extends Component<Props> {
     }
 
     render() {
-
         return (
-
 
             <View style={styles.container}>
 

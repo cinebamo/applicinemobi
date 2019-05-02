@@ -35,11 +35,11 @@ export default class LoginForm extends Component<Props> {
                 cookies[name]= value;
             }
             console.log('cookies.token ' + cookies.token);
-            AsyncStorage.setItem('token', cookies.token);
+            AsyncStorage.setItem('token', cookies.token.toString());
             return response.json();
           })
           .then((datas) => {
-            console.log("login ok" + datas);
+            console.log("login ok", datas);
 
             if(datas !== '') {
                 console.log(datas);
@@ -85,18 +85,9 @@ export default class LoginForm extends Component<Props> {
                 </View>
 
             </View>
-
-
-
         )
-
     }
-
-
-
-
 }
-
 
 const styles = StyleSheet.create({
     container: {
