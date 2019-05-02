@@ -11,7 +11,7 @@ export default class Dashboard extends Component<Props> {
         titreView: 'Liste des films',
         bool_movieView: false,
         currentMovie: '',
-        showCommentModal: false
+        showCommentModal: false,
     }
 
     componentWillMount() {
@@ -62,7 +62,7 @@ export default class Dashboard extends Component<Props> {
             <View style={styles.container}>
                 <View style={styles.modalStyle}>
                     <Image source={require('../asset/logo_cinebamo.png')} style={styles.modalLogoStyle} />
-                    <ModalUser setParentState={this.setState.bind(this)} />
+                    <ModalUser setParentState={this.props.setParentState} />
 
                 </View>
                 <View>

@@ -33,7 +33,7 @@ export default class App extends Component<Props> {
 
           (this.state.isLogged) ? (
 
-            <Dashboard />
+            <Dashboard setParentState={this.setState.bind(this)}/>
 
           ) : (
 
@@ -56,7 +56,7 @@ export default class App extends Component<Props> {
                     </View>
 
                     <AccountForm setParentState={this.setState.bind(this)} />
-                    
+
                   </View>
                 )
             )

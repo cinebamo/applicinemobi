@@ -60,14 +60,7 @@ export default class ModalUser extends Component<Props> {
         }),
       }).then(function (result) { console.log('result', result); return result.json({}) })
         .then(function (datas) {
-          console.log(datas);
-          this.setState({
-            name: datas.name,
-            firstname: datas.firstname,
-            age: datas.age,
-            email: datas.email,
-            password: datas.password,
-          })
+          this.setModalVisible(!this.state.modalVisible);
         }
           .bind(this)
         );
@@ -89,13 +82,13 @@ export default class ModalUser extends Component<Props> {
       }).then((response) => response.text())
         .then((datas) => {
           console.log('compte supprimer');
+          this.props.setParentState({ isLogged: false });
         })
     })
   }
 
   _onLogout() {
     AsyncStorage.removeItem('token', (st, token) => {
-      this.setModalVisible(!this.state.modalVisible);
       this.props.setParentState({ isLogged: false });
 
     })
