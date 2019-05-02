@@ -14,23 +14,27 @@ export default class SearchView extends Component<Props> {
     }
 
     _buttonSearch() {
-        // console.log("search_TitleActor : " + this.state.search_TitleActor)
-        // console.log("search_Category : " + this.state.search_Category)
+        console.log("search_TitleActor : +" + this.state.search_TitleActor+"+")
+        console.log("search_Category : " + this.state.search_Category)
 
         // Chercher les films
-
-        var route = 'http://cinebamo.it-students.fr/search/?'
-        var String_titleGet = 'title_actor=' + this.state.search_TitleActor
-        var String_categGet = '&category=' + this.state.search_Category
-        var getRoute = route + String_titleGet + String_categGet
-        fetch(getRoute, { // n_movie=6 pour charger 6 films
-            method: 'GET',
-            credentials: 'same-origin',
-            headers: {
-                'content-Type': 'application/json',
-            },
-
-        })
+        var canSearch = true
+        if((search_TitleActor.length == 0) &&(search_Category.length == 0)) {
+            canSearch = false
+        }
+        
+        if (canSearch) {
+            var route = 'http://cinebamo.it-students.fr/search/?'
+            var String_titleGet = 'title_actor=' + this.state.search_TitleActor
+            var String_categGet = '&category=' + this.state.search_Category
+            var getRoute = route + String_titleGet + String_categGet
+            fetch(getRoute, { // n_movie=6 pour charger 6 films
+                method: 'GET',
+                credentials: 'same-origin',
+                headers: {
+                    'content-Type': 'application/json',
+                },
+            })
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({
@@ -45,6 +49,9 @@ export default class SearchView extends Component<Props> {
                 // ADD THIS THROW error
                 throw error;
             });
+        } else {
+            this.props.setParentState({ titreView: 'Aucun résultat', bool_movieView: false })
+        }
         //mettre a jour le parent
     }
 

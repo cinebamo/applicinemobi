@@ -11,9 +11,14 @@ export default class Dashboard extends Component<Props> {
         titreView: 'Liste des films',
         bool_movieView: false,
         currentMovie: '',
+        showCommentModal: false
     }
 
     componentWillMount() {
+        this.SearchSix()
+    }
+
+    SearchSix() {
         var n_movie = 6
         var addr = 'http://cinebamo.it-students.fr/search/last?n_movie='
         var fetch_addr = addr + n_movie
@@ -29,25 +34,27 @@ export default class Dashboard extends Component<Props> {
                 this.setState({
                     movies: responseJson
                 })
-                
+
             }).catch(function (error) { // Pour le warning d'erreur "unhandled promise rejection"
                 console.log('There has been a problem with your fetch operation: ' + error.message);
                 // ADD THIS THROW error
                 throw error;
             });
-        
     }
+
     // get_currentMovie() {
     //     return this.state.currentMovie;
     // }
-    Actors_strings(ActorList) {
-         
-    }
+
     MovieTouch(filmInfo) {
-    
-        this.setState({currentMovie: filmInfo})
+
+        this.setState({ currentMovie: filmInfo })
         this.state.bool_movieView = true
-        
+
+    }
+
+    _buttonComment() {
+        this.state.showCommentModal = true
     }
     render() {
         return (
@@ -64,16 +71,33 @@ export default class Dashboard extends Component<Props> {
                 {
                     (this.state.bool_movieView) ? (
                         <View>
-                            <Image
-                                style={{ width: 50, height: 60 }}
-                                source={{ uri: this.state.currentMovie.posterLink }}
-                            />
-                            <Text> Titre : {this.state.currentMovie.title}</Text>
+                            <View style={styles.imageFilmView}>
+                                <Image
+                                    style={styles.imageFilmStyle}
+                                    source={{ uri: this.state.currentMovie.posterLink }}
+                                />
+                            </View>
+                            <Text>Titre : {this.state.currentMovie.title}</Text>
                             <Text>Categorie : {this.state.currentMovie.category}</Text>
                             <Text>Note : {this.state.currentMovie.score}/10</Text>
                             <Text>Acteurs : {this.state.currentMovie.actors.join(', ')}</Text>
                             <Text>Resumé : {this.state.currentMovie.summary}</Text>
-
+                            <TouchableOpacity
+                                style={styles.buttonComment}
+                                onPress={() => {
+                                    this._buttonComment();
+                                }}>
+                                <Text style={{ fontSize: 30 }}>Commenter</Text>
+                            </TouchableOpacity>
+                            {(this.state.showCommentModal) ? (
+                                <View>
+                                    <Text>Modal Comment ici si showCommentModal = true</Text>
+                                </View>
+                            ) : (
+                                <View>
+                                    
+                                </View>
+                            )}
                         </View>
 
                     ) : (
@@ -84,7 +108,9 @@ export default class Dashboard extends Component<Props> {
                                     keyExtractor={(item, index) => index.toString()}
                                     renderItem={({ item }) => (
 
-                                        <TouchableOpacity onPress={() => this.MovieTouch(item)}>
+                                        <TouchableOpacity 
+                                        
+                                        onPress={() => this.MovieTouch(item)}>
                                             <Image
                                                 style={{ width: 50, height: 60 }}
                                                 source={{ uri: item.posterLink }}
@@ -107,8 +133,8 @@ const styles = StyleSheet.create({
         height: 100,
         flexDirection: 'row',
         //Le margin et Padding "Bouscule" les autre view  
-          marginTop: 20, 
-     
+        marginTop: 20,
+
     },
     modalLogoStyle: {
         marginTop: 30,
@@ -129,5 +155,19 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
         backgroundColor: '#fff',
         flexDirection: 'column'
+    },
+    imageFilmView: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+
+    },
+    imageFilmStyle: {
+        height: 150,
+        width: 100
+    },
+    buttonComment: {
+        backgroundColor: 'silver',
+        borderRadius: 5,
+        marginRight:5,
     }
 });
