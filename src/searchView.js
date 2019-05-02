@@ -107,12 +107,20 @@ export default class SearchView extends Component<Props> {
                 </View>
               
 
-                <Picker
+                {/* <Picker
                     selectedValue={this.state.search_Category}
                     style={styles.pickerStyle}
                     onValueChange={(itemValue, itemIndex) =>
                         this.setState({ search_Category: itemValue })
-                    }>
+                    }> */}
+                    <Picker
+                    note
+                    mode="dropdown"
+                    style={{ width: 160 }}
+                    selectedValue={this.state.search_Category}
+                    onValueChange={(itemValue, itemIndex) =>
+                        this.setState({ search_Category: itemValue })}
+                    >
                     <Picker.Item label="Categorie" value="" />
                     <Picker.Item label="Action" value="ACTION" />
                     <Picker.Item label="Comedie" value="COMEDY" />

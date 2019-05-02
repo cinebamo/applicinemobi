@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { FlatList, StyleSheet,  View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import {  Card, CardItem, Body, Text } from 'native-base';
 import ModalUser from './modaluser.js';
 import SearchView from './searchView';
 // import FilmView from './filmView';
@@ -118,7 +119,7 @@ export default class Dashboard extends Component<Props> {
                                     data={this.state.movies}
                                     keyExtractor={(item, index) => index.toString()}
                                     renderItem={({ item }) => (
-
+                                        
                                         <TouchableOpacity
                                             style={styles.listStyle}
                                             onPress={() => this.MovieTouch(item)}>
