@@ -107,11 +107,11 @@ const styles = StyleSheet.create({
         height: 100,
         flexDirection: 'row',
         //Le margin et Padding "Bouscule" les autre view  
-        //  margin: 20, 
-        //  padding: 20
+          marginTop: 20, 
+     
     },
     modalLogoStyle: {
-        marginTop: 15,
+        marginTop: 30,
         height: 50,
         width: 50
     },
