@@ -120,14 +120,20 @@ export default class Dashboard extends Component<Props> {
                                     renderItem={({ item }) => (
 
                                         <TouchableOpacity
-
+                                            style={styles.listStyle}
                                             onPress={() => this.MovieTouch(item)}>
-                                            <Image
-                                                style={{ width: 50, height: 60 }}
-                                                source={{ uri: item.posterLink }}
-                                            />
-                                            <Text>{item.title}</Text>
-                                            <Text>{item.summary}</Text>
+                                            <View style={styles.viewFilmBlockStyle}>
+                                                <View style={styles.viewImgFlatStytle}>
+                                                    <Image
+                                                        style={styles.imgFlatListStyle}
+                                                        source={{ uri: item.posterLink }}
+                                                    />
+                                                </View>
+                                                <View style={{flexDirection: 'column',flexShrink: 1}}>
+                                                    <Text>{item.title}</Text>
+                                                    <Text style={{flex: 1, flexWrap: 'wrap'}}>{item.summary}</Text>
+                                                </View>
+                                            </View>
                                         </TouchableOpacity>
                                     )}>
                                 </FlatList>
@@ -202,5 +208,25 @@ const styles = StyleSheet.create({
         backgroundColor: 'silver',
         borderRadius: 5,
         marginRight: 5,
+    },
+    listStyle: {
+        borderWidth: 2,
+        borderColor: 'black',
+        borderRadius: 5,
+        margin: 1,
+    },
+    imgFlatListStyle: {
+        width: 50,
+        height: 60,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    viewImgFlatStytle: {
+        justifyContent: 'center',
+        alignItems: 'center'
+
+    },
+    viewFilmBlockStyle: {
+        flexDirection:'row'
     }
 });

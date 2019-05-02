@@ -17,10 +17,22 @@ export default class SearchView extends Component<Props> {
         // Chercher les films
 
         var canSearch = true
-        if((typeof this.search_TitleActor == 'undefined') && (typeof this.search_Category == 'undefined')) {
+        if((typeof(this.state.search_TitleActor) === 'undefined') && (typeof(this.state.search_Category) === 'undefined')) {
+            // console.log("search_TitleActor : "+ this.state.search_TitleActor)
+            // console.log("search_Category : "+ this.state.search_Category)
+            // console.log("search_TitleActor type: "+ typeof this.state.search_TitleActor)
+            // console.log("search_Category type: "+ typeof this.state.search_Category)
+            // console.log("search_TitleActor length: "+  this.state.search_TitleActor.length)
+            // console.log("search_Category length: "+ this.state.search_Category.length)
             canSearch = false
         }
-        console.log("canSearch = " + canSearch)
+        if((this.state.search_TitleActor.length == 0) && (this.state.search_Category.length == 0)) {
+            canSearch = false
+        }
+        // if((typeof this.search_TitleActor !== 'undefined') && (typeof this.search_Category !== 'undefined')) {
+        //     canSearch = true
+        // }
+        //console.log("canSearch = " + canSearch)
         if (canSearch) {
             var route = 'http://cinebamo.it-students.fr/search/?'
             var String_titleGet = 'title_actor=' + this.state.search_TitleActor
@@ -46,11 +58,34 @@ export default class SearchView extends Component<Props> {
                 throw error;
             });
         } else {
-            this.props.setParentState({ titreView: 'Aucun résultat', bool_movieView: false })
+            this.props.setParentState({ titreView: 'Recherche impossible, entrez un titre ou choisir une catégorie', bool_movieView: false })
+            this.SearchSix()
         }
         //mettre a jour le parent
     }
-
+    SearchSix() {
+        var n_movie = 6
+        var addr = 'http://cinebamo.it-students.fr/search/last?n_movie='
+        var fetch_addr = addr + n_movie
+        fetch(fetch_addr, { // n_movie=6 pour charger 6 films
+            method: 'GET',
+            credentials: 'same-origin',
+            headers: {
+                'content-Type': 'application/json',
+            },
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.props.setParentState({
+                    movies: responseJson
+                })
+                console.log(responseJson)
+            }).catch(function (error) { // Pour le warning d'erreur "unhandled promise rejection"
+                console.log('There has been a problem with your fetch operation: ' + error.message);
+                // ADD THIS THROW error
+                throw error;
+            });
+    }
     render() {
         return (
 
@@ -67,7 +102,7 @@ export default class SearchView extends Component<Props> {
                         onPress={() => {
                             this._buttonSearch();
                         }}>
-                        <Text style={{ fontSize: 30 }}>Go !</Text>
+                        <Text>Rechercher</Text>
                     </TouchableOpacity>
                 </View>
               
@@ -106,19 +141,22 @@ const styles = StyleSheet.create({
         height: 40,
         borderColor: 'silver',
         borderWidth: 1,
-
+        borderRadius: 5,
         marginLeft: 5,
         marginRight: 5,
         flex:1
         //padding: 5,
     },
     pickerStyle: {
-
+        
         margin:5
     },
     buttonSearch: {
         backgroundColor: 'silver',
         borderRadius: 5,
         marginRight:5,
+        padding:5,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 });
