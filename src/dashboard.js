@@ -3,10 +3,10 @@ import { FlatList, StyleSheet,  View, Image, TouchableOpacity, ScrollView } from
 import {  Card, CardItem, Body, Text } from 'native-base';
 import ModalUser from './modaluser.js';
 import SearchView from './searchView';
+import ModalComment from './modalcomment.js';
 // import FilmView from './filmView';
 type Props = {};
 export default class Dashboard extends Component<Props> {
-
     state = {
         movies: [],
         titreView: 'Liste des films',
@@ -14,11 +14,9 @@ export default class Dashboard extends Component<Props> {
         currentMovie: '',
         showCommentModal: false,
     }
-
     componentWillMount() {
         this.SearchSix()
     }
-
     SearchSix() {
         var n_movie = 6
         var addr = 'http://cinebamo.it-students.fr/search/last?n_movie='
@@ -35,22 +33,26 @@ export default class Dashboard extends Component<Props> {
                 this.setState({
                     movies: responseJson
                 })
-
             }).catch(function (error) { // Pour le warning d'erreur "unhandled promise rejection"
                 console.log('There has been a problem with your fetch operation: ' + error.message);
                 // ADD THIS THROW error
                 throw error;
             });
     }
-
     MovieTouch(filmInfo) {
-
         this.setState({ currentMovie: filmInfo })
         this.setState({ bool_movieView: true })
-
-
     }
-
+    _addComment(comment) {
+        console.log('papa a recu un message', comment) ;
+        // parent : this.state.currentMovie.comments
+        console.log( this.state.currentMovie.comments) ;
+        var allComments =  this.state.currentMovie.comments || [] ;
+        allComments.push(comment) ;
+        var currentMovie = this.state.currentMovie ;
+        currentMovie.comments = allComments ;
+        this.setState({currentMovie : currentMovie}) ;
+    }
     _buttonComment() {
         this.setState({ showCommentModal: true })
     }
@@ -59,12 +61,10 @@ export default class Dashboard extends Component<Props> {
     }
     render() {
         return (
-
             <View style={styles.container}>
                 <View style={styles.modalStyle}>
                     <Image source={require('../asset/logo_cinebamo.png')} style={styles.modalLogoStyle} />
                     <ModalUser setParentState={this.props.setParentState} />
-
                 </View>
                 <View>
                     <SearchView setParentState={this.setState.bind(this)} />
@@ -83,9 +83,25 @@ export default class Dashboard extends Component<Props> {
                             <Text>Note : {this.state.currentMovie.score}/10</Text>
                             <Text>Acteurs : {this.state.currentMovie.actors.join(', ')}</Text>
                             <Text>Resumé : {this.state.currentMovie.summary}</Text>
-
+                            <View>
+                                {
+                                    this.state.currentMovie.comments && this.state.currentMovie.comments.length ? (
+                                        <View>
+                                            <Text style={{color:'red', marginTop:15, marginBottom:15, textAlign:"center"}}>Commentaires</Text>
+                                            {
+                                                this.state.currentMovie.comments.map(comment => {
+                                                    return (
+                                                        <View>
+                                                            <Text>{comment.content}</Text>
+                                                        </View>
+                                                    )
+                                                })
+                                            }
+                                        </View>
+                                    ) : null 
+                                }
+                            </View>
                             <View style={styles.buttonFilm_View}>
-
                                 <TouchableOpacity
                                     style={styles.buttonFilmComment}
                                     onPress={() => {
@@ -95,11 +111,10 @@ export default class Dashboard extends Component<Props> {
                                 </TouchableOpacity>
                                 {(this.state.showCommentModal) ? (
                                     <View>
-                                        <Text>Modal Comment ici si showCommentModal = true</Text>
+                                       <ModalComment setParentState={this.setState.bind(this)} addComment={this._addComment.bind(this)} />
                                     </View>
                                 ) : (
                                         <View>
-
                                         </View>
                                     )}
                                 <TouchableOpacity
@@ -111,7 +126,6 @@ export default class Dashboard extends Component<Props> {
                                 </TouchableOpacity>
                             </View>
                         </ScrollView>
-
                     ) : (
                             <View style={styles.form}>
                                 <Text>{this.state.titreView}</Text>
@@ -145,14 +159,12 @@ export default class Dashboard extends Component<Props> {
         );
     }
 }
-
 const styles = StyleSheet.create({
     modalStyle: {
         height: 100,
         flexDirection: 'row',
         //Le margin et Padding "Bouscule" les autre view  
         marginTop: 20,
-
     },
     modalLogoStyle: {
         marginTop: 30,
@@ -160,8 +172,6 @@ const styles = StyleSheet.create({
         width: 50
     },
     form: {
-
-
         alignItems: 'stretch',
         // alignSelf: 'stretch',
         //backgroundColor: '#ff0000',
@@ -177,7 +187,6 @@ const styles = StyleSheet.create({
     imageFilmView: {
         flexDirection: 'row',
         justifyContent: 'center',
-
     },
     imageFilmStyle: {
         height: 150,
@@ -185,7 +194,6 @@ const styles = StyleSheet.create({
     },
     buttonFilm_View: {
         flexDirection: "column",
-
     },
     buttonFilmBack: {
         backgroundColor: '#1e90ff',
@@ -225,7 +233,6 @@ const styles = StyleSheet.create({
     viewImgFlatStytle: {
         justifyContent: 'center',
         alignItems: 'center'
-
     },
     viewFilmBlockStyle: {
         flexDirection:'row'
