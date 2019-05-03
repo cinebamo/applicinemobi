@@ -15,7 +15,7 @@ export default class SearchView extends Component<Props> {
 
     _buttonSearch() {
         // Chercher les films
-
+        console.log("SEARCHVIEW voit comme state currentMovie : " + this.props.currentMovieFromParent)
         var canSearch = true
         if((typeof(this.state.search_TitleActor) === 'undefined') && (typeof(this.state.search_Category) === 'undefined')) {
             // console.log("search_TitleActor : "+ this.state.search_TitleActor)
