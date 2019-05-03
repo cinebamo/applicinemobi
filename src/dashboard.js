@@ -67,7 +67,7 @@ export default class Dashboard extends Component<Props> {
                     <ModalUser setParentState={this.props.setParentState} />
                 </View>
                 <View>
-                    <SearchView setParentState={this.setState.bind(this)} currentMovieFromParent={this.state.currentMovie} />
+                    <SearchView setParentState={this.setState.bind(this)} />
                 </View>
                 {
                     (this.state.bool_movieView) ? (
@@ -185,21 +185,12 @@ const styles = StyleSheet.create({
         flexDirection: 'column'
     },
     imageFilmView: {
-     
-        flexDirection:'row',
+        flexDirection: 'row',
         justifyContent: 'center',
-        alignItems:'center',
-        resizeMode:'contain',
-        height: 220,
-        
     },
     imageFilmStyle: {
-        borderColor:'black',
-        borderWidth:1,
-      
-      
-        height: 211,
-        width: 150
+        height: 150,
+        width: 100
     },
     buttonFilm_View: {
         flexDirection: "column",
@@ -234,8 +225,8 @@ const styles = StyleSheet.create({
         margin: 1,
     },
     imgFlatListStyle: {
-        width: 100,
-        height: 140,
+        width: 50,
+        height: 60,
         justifyContent: 'center',
         alignItems: 'center'
     },

@@ -14,6 +14,9 @@ constructor(props) {
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
   }
+  _escapemodal(){
+    this.props.setParentState({showCommentModal:false})
+  }
   _onPublish() {
     console.log('onPublish')
 // recuperer le commentaire tapé par le pelo 
@@ -59,20 +62,27 @@ fetch('http://cinebamo.it-students.fr/comments', {
                     <ModalUser setParentState={this.setState.bind(this)} />
                 </View>
           
-          <View style={{ alignItems:'center', marginTop:160, }}>
-                  <TextInput style={{height:200, width:200, borderColor: 'silver',borderWidth:1,}}
+          <View style={{ alignItems:'center', marginTop:100, }}>
+                  <TextInput style={styles.textcom}
+                    multiline={true}
+                    numberOfLines={10}
                     value={this.state.comment}
                     placeholder="Your comment"
                     autoCorrect={false}
                     onChangeText={(text) => { this.setState({ comment: text }) }} />
               <TouchableOpacity>
-                <Text style={{ marginTop: 10, color: '#FFF', backgroundColor:'navy', fontSize:40, }}
+                <Text style={styles.buttonpublish}
                   onPress={this._onPublish.bind(this)}>
                  Publier</Text>
               </TouchableOpacity>
                 </View>
           </View>
-       
+              <TouchableOpacity
+                onPress={() => {
+                  this._escapemodal(!this.state.modalVisible);
+                }}>
+                <Text style={{ fontSize: 30, textAlign: 'center', marginBottom:20 }}>&#10006;</Text>
+              </TouchableOpacity>
         
         </Modal>
         </View>
@@ -82,6 +92,15 @@ fetch('http://cinebamo.it-students.fr/comments', {
 }
 const styles = StyleSheet.create({
   
+  textcom: {
+    height:100,
+    width:200,
+    borderColor: 'silver',
+    borderWidth:1,
+    textAlign:'left',
+    textAlignVertical: 'top',
+ 
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -96,5 +115,14 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50
   },
- 
+  buttonpublish : {
+    marginTop: 20, 
+    color: '#FFF', 
+    backgroundColor:'black', 
+    fontSize:40, 
+    borderRadius:20, 
+    borderColor: 'rgba(191, 57, 57, 0.9)' ,
+    borderWidth:10,
+    textAlign: 'center'
+  },
 });
