@@ -12,7 +12,8 @@ export default class LoginForm extends Component<Props> {
     _onLogin() {
         console.log('onLogin')
         //recuperer values input
-        console.log(this.state);
+        console.log('Coucou : ' , this.state);
+        //console.log('Response :' , state);
         // envoyer
         fetch('http://cinebamo.it-students.fr/login', {
             // fetch('http://192.168.33.15:3000/login', {
@@ -27,24 +28,30 @@ export default class LoginForm extends Component<Props> {
             }),
         })
             .then((response) => {
-                var cookies = {};
-                var cooks = response.headers.map['set-cookie'].split(';');
-                for (var i in cooks) {
-                    var [name, value] = cooks[i].trim().split('=');
-                    console.log(name, value);
-                    cookies[name] = value;
-                }
-                console.log('cookies.token ' + cookies.token);
-                AsyncStorage.setItem('token', cookies.token.toString());
+                try {
+
+                    var cookies = {};
+                    var cooks = response.headers.map['set-cookie'].split(';');
+                    for (var i in cooks) {
+                        var [name, value] = cooks[i].trim().split('=');
+                        console.log(name, value);
+                        cookies[name] = value;
+                    }
+                    console.log('cookies.token ' + cookies.token);
+                    AsyncStorage.setItem('token', cookies.token.toString());
+                    console.log(response);
+                } catch(e) {console.log(e)}
                 return response.json();
             })
             .then((datas) => {
+                console.log(datas)
                 if (datas.message == 'connection reussie') {
-                    console.log('datas ok?',datas.message);
+                    console.log('Datas ok: ',datas.message);
                     this.props.setParentState({ isLogged: true });
                     console.log(this.state);
                 } else {
-                    console.log('datas Nok',datas.result);
+                    console.log('Datas Nok: ' , datas.result);
+                    this.setState({ identificationLogin: '' });
                     this.setState({ identificationPassword: '' });
                     alert('Veuillez vérifier votre saisie');
                 }
